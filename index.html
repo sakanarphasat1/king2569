@@ -86,8 +86,7 @@
   </div>
 
   <script>
-    // ⚠️ นำ URL จาก Apps Script มาวางแทนที่ตรงนี้
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxD3TPZ0ONRLkzZpvT4T-iLWkbG4xx72Gi8Jdw5YvhIZLmPtt4V1X0-UcowPc2_7ueg/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgz-ruBAoF1KJhVRjSCLJWdoMJVRPKw06nA4BxJKdWlnfpm3KKUL99H_sxjEMQX720cg/exec';
 
     function handleFormSubmit(e) {
       e.preventDefault();
@@ -96,31 +95,41 @@
       btn.disabled = true;
       btn.innerText = 'กำลังบันทึกข้อมูล...';
 
+      var firstName = document.getElementById('firstName').value.trim();
+      var lastName = document.getElementById('lastName').value.trim();
+
       var formData = {
-        firstName: document.getElementById('firstName').value.trim(),
-        lastName: document.getElementById('lastName').value.trim()
+        firstName: firstName,
+        lastName: lastName
       };
 
-      // ใช้ fetch ส่งข้อมูลข้ามไปยัง Apps Script
+      // 1. ส่งข้อมูลไปบันทึกลง Sheet
       fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors', // เพื่อป้องกันปัญหา CORS บน GitHub Pages
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       })
-      .then(response => {
-        // เนื่องจากใช้ no-cors จะอ่าน response ตรงๆ ไม่ได้ 
-        // แต่ข้อมูลเข้า Google Sheet เรียบร้อยแล้ว จึงให้แสดงผลทันที
-        document.getElementById('resName').innerText = formData.firstName + ' ' + formData.lastName;
+      .then(() => {
+        // 2. หลังจากบันทึกเสร็จ ดึงจำนวนลำดับล่าสุดจาก Sheet มาแสดง
+        return fetch(APPS_SCRIPT_URL);
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('resName').innerText = firstName + ' ' + lastName;
+        document.getElementById('resCount').innerText = data.countThai; // แสดงเลขไทยจริงจาก Sheet
         
-        // แสดงหน้าสำเร็จ
         document.getElementById('page-home').style.display = 'none';
         document.getElementById('page-result').style.display = 'block';
         document.getElementById('signForm').reset();
         resetBtn();
       })
       .catch(err => {
-        alert('เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง');
+        // กรณีดึงลำดับไม่ได้ ให้แสดงหน้าสำเร็จไว้ก่อน
+        document.getElementById('resName').innerText = firstName + ' ' + lastName;
+        document.getElementById('page-home').style.display = 'none';
+        document.getElementById('page-result').style.display = 'block';
+        document.getElementById('signForm').reset();
         resetBtn();
       });
     }
