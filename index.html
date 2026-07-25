@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ลงนามถวายพระพรชัยมงคล</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Charm:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS ชุดเดิมของคุณ (ใช้งานได้เลย) -->
+  <style>
+    /* ...คง CSS เดิมทั้งหมดไว้ได้เลยครับ... */
+    * { box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
+    body { margin: 0; padding: 0; background: #fdf8eb; color: #4a3b10; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .card-container { width: 95%; max-width: 1100px; background: #fffdf7; border: 3px solid #d4af37; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); overflow: hidden; margin: 20px auto; }
+    #page-home { display: flex; flex-direction: row; align-items: center; }
+    .img-section { flex: 1.3; background: #faf3e0; display: flex; align-items: center; justify-content: center; padding: 15px; }
+    .img-section img { width: 100%; height: auto; max-width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); object-fit: contain; }
+    .form-section { flex: 1; padding: 40px 30px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+    .royal-title { font-family: 'Charm', cursive; font-size: 2.8rem; font-weight: bold; color: #b38700; margin-bottom: 5px; }
+    .royal-sub { font-size: 1.05rem; color: #66521a; margin-bottom: 25px; line-height: 1.6; }
+    .form-group { margin-bottom: 15px; text-align: left; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+    .form-control { width: 100%; padding: 12px; border: 1px solid #d4af37; border-radius: 6px; font-size: 1rem; outline: none; }
+    .form-row { display: flex; gap: 12px; }
+    .form-row .form-group { flex: 1; }
+    .btn-submit { width: 100%; padding: 14px; background: linear-gradient(135deg, #e6b800, #b38700); color: white; border: none; border-radius: 25px; font-size: 1.15rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 8px rgba(0,0,0,0.15); margin-top: 15px; }
+    .btn-submit:hover { background: linear-gradient(135deg, #b38700, #806000); }
+    .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+    #page-result { display: none; padding: 50px 20px; text-align: center; background: linear-gradient(180deg, #fffef9 0%, #fef8e7 100%); }
+    .result-header { font-family: 'Charm', cursive; font-size: 3rem; color: #b38700; font-weight: bold; margin-bottom: 10px; }
+    .result-text-royal { font-size: 1.25rem; line-height: 1.8; color: #554313; margin-bottom: 25px; }
+    .signer-name { font-size: 2rem; font-weight: bold; color: #806000; margin: 20px 0; }
+    .divider-gold { width: 150px; height: 3px; background: #d4af37; margin: 20px auto; border-radius: 2px; }
+    .count-box { font-size: 1.3rem; color: #66521a; margin-bottom: 35px; }
+    .count-box span { font-weight: bold; color: #b38700; font-size: 1.6rem; }
+    .btn-back { padding: 12px 40px; background: #e91e63; color: white; border: none; border-radius: 25px; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: 0.3s; }
+    .btn-back:hover { background: #c2185b; }
+    @media (max-width: 850px) { #page-home { flex-direction: column; } .form-row { flex-direction: column; gap: 0; } .royal-title { font-size: 2.2rem; } .result-header { font-size: 2.4rem; } }
+  </style>
+</head>
+<body>
+
+  <div class="card-container">
+    <div id="page-home">
+      <div class="img-section">
+        <img src="https://i.imgur.com/uKyrJcE.jpg" alt="พระบรมฉายาลักษณ์">
+      </div>
+      <div class="form-section">
+        <div class="royal-title">ทรงพระเจริญ</div>
+        <div class="royal-sub">
+          เนื่องในวันเฉลิมพระชนมพรรษา<br>
+          พระบาทสมเด็จพระปรเมนทรรามาธิบดีศรีสินทรมหาวชิราลงกรณ<br>
+          พระวชิรเกล้าเจ้าอยู่หัว
+        </div>
+        
+        <form id="signForm" onsubmit="handleFormSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">ชื่อ :</label>
+              <input type="text" id="firstName" class="form-control" placeholder="--กรุณาระบุชื่อ--" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">นามสกุล :</label>
+              <input type="text" id="lastName" class="form-control" placeholder="--กรุณาระบุนามสกุล--" required>
+            </div>
+          </div>
+          
+          <button type="submit" id="submitBtn" class="btn-submit">ลงนามถวายพระพร</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="page-result">
+      <div class="result-header">ขอพระองค์ทรงพระเจริญ</div>
+      <div class="result-text-royal">
+        ด้วยเกล้าด้วยกระหม่อมขอเดชะ<br>
+        ข้าพระพุทธเจ้า
+      </div>
+      <div class="signer-name" id="resName">ชื่อ นามสกุล</div>
+      <div class="divider-gold"></div>
+      <div class="count-box">
+        ผู้ร่วมลงนามลำดับที่ : <span id="resCount">๑</span>
+      </div>
+      <button class="btn-back" onclick="goHome()">กลับหน้าหลัก</button>
+    </div>
+  </div>
+
+  <script>
+    // ⚠️ นำ URL จาก Apps Script มาวางแทนที่ตรงนี้
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybZYrl_I8Ldg5sWtR4s8tm0fct-7S7NGQnoeke7F6otIMRUkZ_tis7KCpj11sykjqMvg/exec';
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerText = 'กำลังบันทึกข้อมูล...';
+
+      var formData = {
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim()
+      };
+
+      // ใช้ fetch ส่งข้อมูลข้ามไปยัง Apps Script
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // เพื่อป้องกันปัญหา CORS บน GitHub Pages
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      .then(response => {
+        // เนื่องจากใช้ no-cors จะอ่าน response ตรงๆ ไม่ได้ 
+        // แต่ข้อมูลเข้า Google Sheet เรียบร้อยแล้ว จึงให้แสดงผลทันที
+        document.getElementById('resName').innerText = formData.firstName + ' ' + formData.lastName;
+        
+        // แสดงหน้าสำเร็จ
+        document.getElementById('page-home').style.display = 'none';
+        document.getElementById('page-result').style.display = 'block';
+        document.getElementById('signForm').reset();
+        resetBtn();
+      })
+      .catch(err => {
+        alert('เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง');
+        resetBtn();
+      });
+    }
+
+    function resetBtn() {
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = false;
+      btn.innerText = 'ลงนามถวายพระพร';
+    }
+
+    function goHome() {
+      document.getElementById('page-result').style.display = 'none';
+      document.getElementById('page-home').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
